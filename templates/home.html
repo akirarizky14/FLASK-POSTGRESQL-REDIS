@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redis Monitor</title>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var socket = new WebSocket("ws://{{ request.host }}/monitor");
+      socket.onmessage = function(event) {
+        var data = JSON.parse(event.data);
+        var row = $("<tr><td>" + data.time + "</td><td>" + data.command + "</td></tr>");
+        $("#monitor-table tbody").prepend(row);
+      };
+    });
+  </script>
+</head>
+<body>
+  <h1>Redis Monitor</h1>
+  <table id="monitor-table">
+    <thead>
+      <tr><th>Time</th><th>Command</th></tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chart Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+    <table>
+          <thead>
+            <tr>
+              <th>order_dates</th>
+              <th>total_amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in data %}
+            <tr>
+              <td>{{ row[0] }}</td>
+              <td>{{ row[1] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+  <script>
+    // Retrieve the data from Flask
+    var labels = {{ labels | tojson }};
+    var values = {{ values | tojson }};
+
+    // Create the chart
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Performance Postgresql',
+          data: values,
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }}
+    });
+  </script>
+</body>
+</html>
+
+
+
